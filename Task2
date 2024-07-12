@@ -1,0 +1,94 @@
+/*Perform customer segmentation analysis on a retail dataset to identify distinct customersegments based on purchasing behavior. 
+Use clustering techniques like K-means orDBSCAN to group customers and analyze segment characteristics.*/
+
+
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import seaborn as sns
+
+# Load the retail dataset from a CSV file
+# Note: Replace 'path_to_your_file/retail_data.csv' with the actual path to your CSV file
+retail_data = pd.read_csv('online_retail.csv')
+
+# Display the first few rows of the dataset
+print(retail_data.head())
+
+# Preprocess the dataset to derive relevant features
+retail_data['TotalAmount'] = retail_data['Quantity'] * retail_data['UnitPrice']
+
+# Convert InvoiceDate to datetime format with the correct format
+retail_data['InvoiceDate'] = pd.to_datetime(retail_data['InvoiceDate'], format="%Y-%m-%d %H:%M:%S")
+
+# Aggregate data by CustomerID
+customer_data = retail_data.groupby('CustomerID').agg({
+    'InvoiceNo': 'count',          # Frequency of purchases
+    'TotalAmount': 'sum',          # Total amount spent
+    'InvoiceDate': 'max'           # Recency of last purchase
+}).reset_index()
+
+
+# Rename the columns for clarity
+customer_data.columns = ['CustomerID', 'Frequency', 'TotalAmount', 'LastPurchaseDate']
+
+# Calculate recency in days
+reference_date = retail_data['InvoiceDate'].max()
+customer_data['Recency'] = (reference_date - customer_data['LastPurchaseDate']).dt.days
+
+# Drop LastPurchaseDate as it is no longer needed
+customer_data = customer_data.drop(columns='LastPurchaseDate')
+
+# Display the processed customer data
+print(customer_data.head())
+
+
+# Select relevant features for segmentation
+features = customer_data[['Frequency', 'TotalAmount', 'Recency']]
+
+# Normalize the data
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
+
+# Determine the optimal number of clusters using the elbow method
+wcss = []
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, random_state=42)
+    kmeans.fit(scaled_features)
+    wcss.append(kmeans.inertia_)
+
+plt.figure(figsize=(10, 5))
+plt.plot(range(1, 11), wcss, marker='o')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.title('Elbow Method for Optimal Number of Clusters')
+plt.show()
+
+# Apply K-means clustering with the optimal number of clusters
+optimal_clusters = 4  # Adjust based on the elbow method result
+kmeans = KMeans(n_clusters=optimal_clusters, random_state=42)
+customer_data['Cluster'] = kmeans.fit_predict(scaled_features)
+
+# Analyze the segment characteristics
+cluster_summary = customer_data.groupby('Cluster').mean()
+print(cluster_summary)
+
+# Visualize the clusters
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x='TotalAmount', y='Frequency', hue='Cluster', data=customer_data, palette='Set1', s=100)
+plt.title('Customer Segments based on Total Amount and Frequency')
+plt.xlabel('Total Amount Spent')
+plt.ylabel('Frequency of Purchases')
+plt.legend(title='Cluster')
+plt.show()
+
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x='Recency', y='Frequency', hue='Cluster', data=customer_data, palette='Set1', s=100)
+plt.title('Customer Segments based on Recency and Frequency')
+plt.xlabel('Recency (days)')
+plt.ylabel('Frequency of Purchases')
+plt.legend(title='Cluster')
+plt.show()
