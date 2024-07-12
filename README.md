@@ -1,4 +1,5 @@
 **Name:** AANYA GARG
+
 **Company:** CODTECH IT SOLUTIONS  
 
 **ID:** CT6WDS202
@@ -12,9 +13,10 @@
 
 ## Overview of the Project
 
-### Project: PREDICTIVE MODELING WITH LINEAR REGRESSION
-![graph](https://github.com/user-attachments/assets/5161a527-4326-44e4-8d3e-2d1ee5a74263)
-
+### Project: CUSTOMER SEGMENTATION AND ANALYSIS
+![download](https://github.com/user-attachments/assets/90255dfc-5d51-43c9-acdd-4c6cd1753c52)
+![download (1)](https://github.com/user-attachments/assets/f837419f-53b2-49b2-82e0-adbd861eeca5)
+![download (3)](https://github.com/user-attachments/assets/c52b592c-6ed9-4701-ae61-9c1540393a2f)
 ### Objective
 
 The objective of this task is to demonstrate the process of building, evaluating, and interpreting a simple linear regression model. Here are the specific goals:
