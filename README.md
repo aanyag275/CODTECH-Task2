@@ -17,30 +17,30 @@
 ![download](https://github.com/user-attachments/assets/90255dfc-5d51-43c9-acdd-4c6cd1753c52)
 ![download (1)](https://github.com/user-attachments/assets/f837419f-53b2-49b2-82e0-adbd861eeca5)
 ![download (3)](https://github.com/user-attachments/assets/c52b592c-6ed9-4701-ae61-9c1540393a2f)
+
+
 ### Objective
+The objective of this task is to perform customer segmentation analysis on a retail dataset using clustering techniques like K-means or DBSCAN.
 
-The objective of this task is to demonstrate the process of building, evaluating, and interpreting a simple linear regression model. Here are the specific goals:
-
-### Data Handling:
-- Load and preprocess the dataset.
-- Split the dataset into training and testing sets.
-### Model Training:
-- Train a simple linear regression model using the training data.
-### Model Evaluation:
-- Evaluate the model’s performance using appropriate metrics such as Mean Squared Error (MSE) and R-squared (R²).
-### Prediction:
-- Use the trained model to make predictions on the test data.
-### Visualization:
-- Visualize the regression line along with the training data.
-- Plot the actual vs. predicted values for the test data to assess the model’s accuracy visually.
-### Interpretation:
-- Interpret the evaluation metrics to understand the model’s performance.
-- Draw conclusions based on the visualizations.
+### Data Loading and Preprocessing:
+- Load the retail dataset and preprocess it to derive relevant features like TotalAmount from Quantity and UnitPrice.
+- Convert InvoiceDate to datetime format and aggregate data by CustomerID to compute metrics like Frequency, TotalAmount, and Recency.
+### Feature Selection and Normalization:
+- Select features (Frequency, TotalAmount, Recency) for segmentation.
+- Normalize the selected features using StandardScaler to ensure uniform scale across different metrics.
+### Determining Optimal Number of Clusters:
+- Use the elbow method to determine the optimal number of clusters (optimal_clusters) for K-means clustering based on within-cluster sum of squares (WCSS).
+### Applying K-means Clustering:
+- Apply K-means clustering with the determined optimal number of clusters (optimal_clusters) to segment customers based on their normalized features.
+### Analyzing and Visualizing Segments:
+- Compute cluster summaries to analyze segment characteristics (mean Frequency, TotalAmount, Recency for each cluster).
+- Visualize customer segments using scatter plots to show relationships between TotalAmount vs. Frequency and Recency vs. Frequency, colored by cluster.
 
 ### Technologies Used
 - **Python**: The primary programming language for data analysis.
 - **pandas**: Used for data manipulation and analysis.
 - **matplotlib**: Employed for creating static, animated, and interactive visualizations.
-- **sklearn**: User for splitting data and doing linear regression.
+- **sklearn**: User for preprocessing and k-means clustering.
+- **seaborn**: Utilized for making statistical graphics that are informative and attractive.
 
-A simple linear regression model on a housing dataset can predict house prices based on key features, aiding in informed decision-making for buyers, sellers, and policymakers.
+The outcome of this analysis should provide actionable insights into customer segments within the retail dataset. These insights can be used to tailor marketing strategies, optimize inventory management, and enhance customer retention efforts based on the distinct behaviors and characteristics identified within each segment.
